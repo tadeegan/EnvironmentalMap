@@ -1,6 +1,8 @@
 EnviormentMapping
 =================
 
-Uses WebGL and shaders to replicated a reflective teapot.
+![ScreenShot](https://raw.github.com/tadeegan/EnviormentalMapping/github/screenshot.jpg)
 
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files &
+Uses WebGL and shaders to simulate enviormental reflection.
+
+  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files &
