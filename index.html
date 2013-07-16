@@ -4,9 +4,9 @@
 <title>Teapot Exp</title>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-<script type="text/javascript" src="gl-matrix2.js"></script>
-<script src="jquery-1.9.1.js"></script>
-<script src="webgl-utils.js"></script>
+<script type="text/javascript" src="lib/gl-matrix2.js"></script>
+<script src="lib/jquery-1.9.1.min.js"></script>
+<script src="lib/webgl-utils.js"></script>
 
 <script id="shader-fs" type="x-shader/x-fragment">
     precision mediump float;
@@ -94,6 +94,10 @@
     var modelTextureLoaded = false;
     var modelTexture2Loaded = false;
 
+    var zoom = -8;
+
+    
+    
     function initGL(canvas) {
         try {
             gl = canvas.getContext("experimental-webgl");
@@ -102,7 +106,7 @@
         } catch (e) {
         }
         if (!gl) {
-            alert("Could not initialise WebGL, sorry :-(");
+            alert("Could not initialise WebGL, sorry :-(  Try Chrome?");
         }
     }
 
@@ -151,7 +155,7 @@
             handleLoadedTexture(modelTexture);
             modelTextureLoaded = true;
         }
-        modelTexture.image.src = "uffizi_probe.png";
+        modelTexture.image.src = "assets/uffizi_probe.png";
 
         modelTexture2 = gl.createTexture();
         modelTexture2.image = new Image();
@@ -159,7 +163,7 @@
             handleLoadedTexture(modelTexture2);
             modelTexture2Loaded = true;
         }
-        modelTexture2.image.src = "sand.gif";
+        modelTexture2.image.src = "assets/sand.gif";
     }
 
     function handleLoadedTexture(texture) {
@@ -303,7 +307,7 @@
 
 
         mat4.identity(mvMatrix);
-        mat4.translate(mvMatrix, mvMatrix, [0, 0.0, -8.0]);
+        mat4.translate(mvMatrix, mvMatrix, [0, 0.0, zoom]);
 
 
         if(modelLoaded && modelTextureLoaded && modelTexture2Loaded){
@@ -386,7 +390,7 @@
     function webGLStart() {
         var canvas = document.getElementById("lesson01-canvas");
         canvas.width = $(window).width(); 
-        canvas.height = $(window).height()*.8; 
+        canvas.height = $(window).height()*.9; 
         initGL(canvas);
         initShaders();
         initBuffers();
@@ -436,6 +440,8 @@
     var modelVertexNormalBuffer;
     var normalAccumilator;
     function finishedModelDownload(data){
+        //debugger;
+
         var text= String(data);
         var lines = text.split(/\n/);
         normalAccumilator = new Array();
@@ -454,7 +460,6 @@
                 lineElems[j] = lineElems[]
             }*/
             if(lineElems[0] == "v"){
-                console.log("got here1");
 
                 //var vertex = vec3.create();
                 //vec3.set(vertex, parseFloat(lineElems[1]), parseFloat(lineElems[2]), parseFloat(lineElems[3]));
@@ -465,7 +470,6 @@
                 normalAccumilator.push(vec3.create());
             }
             else if(lineElems[0] == "f"){
-                console.log("got here2");
 
                 var tempFace;
                 if(lineElems.length == 4){//triangle face
@@ -579,7 +583,7 @@
         //drawScene();
     }
     function getModelFromFile(modelURL){
-        $.get(modelURL, finishedModelDownload, 'text')
+        $.get("models/" + modelURL, finishedModelDownload, 'text')
     }
     
     function face(_v1, _v2, _v3){
@@ -608,18 +612,50 @@
         }
         mvMatrix = mvMatrixStack.pop();
     }
-
-
+    function render(a){
+        var x = document.getElementById("selection").options[document.getElementById("selection").selectedIndex].value;
+        var filename;
+        if(x == 1) {
+            filename = "teapot.obj";
+        }
+        else if(x == 2) {
+            filename = "cow.obj";
+        }
+        else if(x == 3) {
+            filename = "pumpkin.obj";
+        }
+        else if(x == 4) {
+            filename = "teddy.obj";
+        }
+        else if(x == 5) {
+            filename = "airplane2.obj";
+        }
+        var canvas = document.getElementById("lesson01-canvas");
+        initGL(canvas);
+        initShaders();
+        initBuffers();
+        initScene();
+        initTexture();
+        modelLoaded = false;
+        getModelFromFile(filename);
+    }
 </script>
-
-
 </head>
 
 
 <body onload="webGLStart();">
-    <canvas id="lesson01-canvas" style="border: none;" width="500" height="500"></canvas>
-    <center> created by <a href="http://thomasdeegan.com"> Thomas Deegan</a> 2013 </<center>
-
+    <canvas id="lesson01-canvas" style="border: none; position: absolute; z-index: 1;" width="500" height="500"></canvas>
+    <div width="300" height="200"  style="position:absolute; z-index: 2; " >
+        <select id="selection" onchange="render()" style="position:relative;">
+            <option value="" disabled="disabled" selected="selected" ">Please select a model</option>
+            <option value="1">Teapot</option>
+            <option value="2">Cow</option>
+            <option value="3">Pimpkin</option>
+            <option value="4">Teddy</option>
+            <option value="5">Plane</option>
+        </select>
+    </div>
+    
 </body>
 
 </html>
