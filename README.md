@@ -1,7 +1,7 @@
 EnviormentMapping
 =================
 
-![ScreenShot](https://raw.github.com/tadeegan/EnviormentalMapping/github/screenshot.jpg)
+![ScreenShot](https://github.com/tadeegan/EnviormentMapping/blob/master/github/screenshot.png)
 
 Uses WebGL and shaders to simulate enviormental reflection.
 
