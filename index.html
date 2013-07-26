@@ -388,7 +388,7 @@
 
 
     function webGLStart() {
-        var canvas = document.getElementById("lesson01-canvas");
+        var canvas = document.getElementById("my-canvas");
         canvas.width = $(window).width(); 
         canvas.height = $(window).height()*.9; 
         initGL(canvas);
@@ -630,7 +630,7 @@
         else if(x == 5) {
             filename = "airplane2.obj";
         }
-        var canvas = document.getElementById("lesson01-canvas");
+        var canvas = document.getElementById("my-canvas");
         initGL(canvas);
         initShaders();
         initBuffers();
@@ -644,7 +644,7 @@
 
 
 <body onload="webGLStart();">
-    <canvas id="lesson01-canvas" style="border: none; position: absolute; z-index: 1;" width="500" height="500"></canvas>
+    <canvas id="my-canvas" style="border: none; position: absolute; z-index: 1; width:100%, height:100%"></canvas>
     <div width="300" height="200"  style="position:absolute; z-index: 2; " >
         <select id="selection" onchange="render()" style="position:relative;">
             <option value="" disabled="disabled" selected="selected" ">Please select a model</option>
@@ -652,7 +652,7 @@
             <option value="2">Cow</option>
             <option value="3">Pimpkin</option>
             <option value="4">Teddy</option>
-            <option value="5">Plane</option>
+            <option value="5">Plane by Martin Deegan!</option>
         </select>
     </div>
     
